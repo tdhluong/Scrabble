@@ -63,7 +63,7 @@ namespace Scrabble2018.Model
             }
         }
 
-        public int  ;
+        public int NumOfPlayers;
 
         public GameState()
         {
