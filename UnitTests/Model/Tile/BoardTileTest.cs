@@ -119,5 +119,36 @@ namespace UnitTests
             // Assert
             Assert.IsTrue(true);
         }
+
+        [Test]
+        public void BoardTile_ApplyVisited_Should_Pass()
+        {
+            // Arrange
+
+            // Act
+            bt.ApplyVisited();
+
+            // Reset
+
+            // Assert
+            Assert.IsTrue(true);
+        }
+
+        [Test]
+        public void BoardTile_ApplyVisited_Has_Visited_Should_Pass()
+        {
+            // Arrange
+
+            // Act
+            bt.LetterMultiplier(0, 7);
+            bt.LetterMultiplier(1, 9);
+            bt.ApplyVisited();
+
+            // Reset
+            bt.CleanVisited();
+
+            // Assert
+            Assert.IsTrue(true);
+        }
     }
 }
