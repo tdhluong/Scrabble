@@ -17,6 +17,17 @@ namespace UnitTests
         }
 
         [Test]
+        public void Player_Id_Get_Should_Return_1()
+        {
+            //Act
+            var id = player.Id;
+
+            //Assert
+            Assert.AreEqual(1, id);
+            
+        }
+
+        [Test]
         public void Player_Score_Get_Should_Return_0()
         {
             //Act
@@ -98,6 +109,16 @@ namespace UnitTests
             //Assert
             Assert.Throws<ArgumentException>(() =>player.CompareTo(pm));
 
+        }
+
+        [Test]
+        public void Player_ToString_Should_Return_string()
+        {
+            //Act
+            var result = "Player " + player.Id + " has scores " + player.Score + " now!";
+
+            //Assert
+            Assert.AreEqual(player.ToString(), result);
         }
     }
 }
