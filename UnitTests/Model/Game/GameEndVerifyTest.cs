@@ -110,6 +110,10 @@ namespace UnitTests.Model.Game
             tile = new Tile('B', 10);
             p2.PlayingTiles.Add(tile);
 
+            gs.ListOfPlayers.Add(p1);
+            gs.ListOfPlayers.Add(p2);
+
+
             foreach (Player p in gs.ListOfPlayers)
             {
 
@@ -120,6 +124,8 @@ namespace UnitTests.Model.Game
                 }
 
             }
+
+            gs.TilesBag.ListTiles.RemoveRange(5, 94);
 
             bool result = GameEndVerify.GameEndScoring(gs);
             Assert.IsTrue(result);
