@@ -20,7 +20,7 @@ namespace UnitTests.Model.Game
         [Test]
         public void GameEndVerify_TilebagLessThanSeven_Morethan7Tilebags_ShouldPass()
         {
-            GameState gs= new GameState();
+            GameState gs = new GameState();
             AllTiles tiles = new AllTiles();
 
             gs.TilesBag.MakeTiles();
@@ -60,7 +60,7 @@ namespace UnitTests.Model.Game
 
             Player p4 = new Player();
             tile = new Tile('A', 12);
-            p4.PlayingTiles.Add(tile); 
+            p4.PlayingTiles.Add(tile);
 
             gameState.ListOfPlayers.Add(p1);
             gameState.ListOfPlayers.Add(p2);
@@ -95,6 +95,33 @@ namespace UnitTests.Model.Game
             gameState.ListOfPlayers.Add(p4);
 
             bool result = GameEndVerify.ExistsPlayerNoTiles(gameState);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void GameEndVerify_GameEndScoring_ShouldPass()
+        {
+            GameState gs = new GameState();
+            Player p1 = new Player();
+            Tile tile = new Tile('A', 12);
+            p1.PlayingTiles.Add(tile);
+
+            Player p2 = new Player();
+            tile = new Tile('B', 10);
+            p2.PlayingTiles.Add(tile);
+
+            foreach (Player p in gs.ListOfPlayers)
+            {
+
+                foreach (Tile t in p.PlayingTiles)
+                {
+                    p1.Score += AllTiles.ScoreOfLetter(t.TileChar);
+                    p2.Score -= AllTiles.ScoreOfLetter(t.TileChar);
+                }
+
+            }
+
+            bool result = GameEndVerify.GameEndScoring(gs);
             Assert.IsTrue(result);
         }
 
