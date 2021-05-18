@@ -131,5 +131,76 @@ namespace UnitTests.Model.Game
             Assert.IsTrue(result);
         }
 
+
+        [Test]
+        public void GameEndVerify_GameEndScoring_TilebagLessThanSeven_And_ExistsPlayerNoTiles_ShouldPass()
+        {
+            GameState gs = new GameState();
+            Player p1 = new Player();
+            Tile tile = new Tile('A', 12);
+            p1.PlayingTiles.Add(tile);
+
+            Player p2 = new Player();
+            tile = new Tile('B', 10);
+            p2.PlayingTiles.Add(tile);
+
+            Player p3 = new Player();
+
+
+            gs.ListOfPlayers.Add(p1);
+            gs.ListOfPlayers.Add(p2);
+            gs.ListOfPlayers.Add(p3);
+
+            foreach (Player p in gs.ListOfPlayers)
+            {
+
+                foreach (Tile t in p.PlayingTiles)
+                {
+                    p1.Score += AllTiles.ScoreOfLetter(t.TileChar);
+                    p2.Score -= AllTiles.ScoreOfLetter(t.TileChar);
+                }
+
+            }
+
+            gs.TilesBag.ListTiles.RemoveRange(5, 94);
+
+            bool result = GameEndVerify.GameEndScoring(gs);
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void GameEndVerify_GameEndScoring_ShouldFail()
+        {
+            GameState gs = new GameState();
+            Player p1 = new Player();
+            Tile tile = new Tile('A', 12);
+            p1.PlayingTiles.Add(tile);
+
+            Player p2 = new Player();
+            tile = new Tile('B', 10);
+            p2.PlayingTiles.Add(tile);
+
+            Player p3 = new Player();
+
+
+            gs.ListOfPlayers.Add(p1);
+            gs.ListOfPlayers.Add(p2);
+            gs.ListOfPlayers.Add(p3);
+
+            foreach (Player p in gs.ListOfPlayers)
+            {
+
+                foreach (Tile t in p.PlayingTiles)
+                {
+                    p1.Score += AllTiles.ScoreOfLetter(t.TileChar);
+                    p2.Score -= AllTiles.ScoreOfLetter(t.TileChar);
+                }
+
+            }
+
+            bool result = GameEndVerify.GameEndScoring(gs);
+            Assert.IsFalse(result);
+        }
+
     }
 }
