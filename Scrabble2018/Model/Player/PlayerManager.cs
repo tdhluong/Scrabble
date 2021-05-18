@@ -37,11 +37,13 @@ namespace Scrabble2018.Model
             List<Tile> LoT = new List<Tile>();
             foreach( Tile t in gs.ListOfPlayers[num].PlayingTiles )
             {
+
                 if( LoC.Contains(t.TileChar) )
                 {
                     LoT.Add(t);
                     LoC.Remove(t.TileChar);
                 }
+
             }
             foreach( Tile t in LoT )
             {
