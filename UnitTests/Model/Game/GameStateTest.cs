@@ -4,6 +4,7 @@ using System.Text;
 
 using NUnit.Framework;
 using Scrabble2018;
+using Scrabble2018.View;
 using Scrabble2018.Model;
 
 
@@ -11,9 +12,16 @@ namespace UnitTests.Model.Game
 {
     public class GameStateTest
     {
+
+        public IView view;
+        public IView view1;
+        public IView view2;
+
         [SetUp]
         public void Setup()
         {
+            
+
         }
 
 
@@ -76,7 +84,70 @@ namespace UnitTests.Model.Game
         }
 
 
+        [Test]
+        public void GameState_UpdateState_null_ShouldReturn_LastAction_Swap()
+        {
+            GameState gs = new GameState();
+            gs.UpdateState(null);
 
+            var result = gs.LastAction;
+            Assert.AreEqual( "swap", result);
+
+        }
+
+        [Test]
+        public void GameState_UpdateState_char_ShouldReturn_PlayerCountingScore_Zero()
+        {
+            GameState gs = new GameState();
+
+            char[,] b = { { 'a', 'b' }}; 
+            gs.UpdateState(b);
+
+            var result = gs.LastAction;
+            Assert.AreEqual("play" , result);
+
+        }
+
+
+        [Test]
+        public void GameState_RegObserver_Should_AddView()
+        {
+            GameState gs = new GameState();
+
+            gs.RegObserver(view);
+
+            var result = gs.ListOfViews.Count;
+
+
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public void GameState_UnregObserver_Should_RemoveView()
+        {
+            GameState gs = new GameState();
+
+            gs.UnregObserver(view);
+
+            Assert.IsNotNull(gs);
+
+        }
+
+
+        [Test]
+        public void GameState_NotifyGameStateChange_Should_ChangeState()
+        {
+            GameState gs = new GameState();
+
+            gs.ListOfViews.Add(view);
+            gs.ListOfViews.Add(view1);
+            gs.ListOfViews.Add(view2);
+
+
+
+            Assert.Throws<NullReferenceException>(() => gs.NotifyGameStateChange());
+
+        }
 
 
     }
