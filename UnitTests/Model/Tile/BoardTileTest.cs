@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Scrabble2018;
 using Scrabble2018.Model;
 using System;
+using System.Windows.Media;
 
 namespace UnitTests
 {
@@ -149,6 +150,19 @@ namespace UnitTests
 
             // Assert
             Assert.IsTrue(true);
+        }
+
+
+        [Test]
+        public void BoardTile_DetermineColor_Should_Return_Correct_Colors()
+        {
+            // Assert
+            Assert.AreEqual(Brushes.OrangeRed, BoardTiles.DetermineColor(0, 0)); // Word Triple
+            Assert.AreEqual(Brushes.Coral, BoardTiles.DetermineColor(1, 1)); // Word Double
+            Assert.AreEqual(Brushes.LightSkyBlue, BoardTiles.DetermineColor(0, 3)); // Letter Double
+            Assert.AreEqual(Brushes.MediumBlue, BoardTiles.DetermineColor(1, 5)); // Letter Triple
+            Assert.AreEqual(Brushes.Gold, BoardTiles.DetermineColor(7, 7)); // Start
+            Assert.AreEqual(Brushes.Bisque, BoardTiles.DetermineColor(1, 0)); // Default           
         }
     }
 }
