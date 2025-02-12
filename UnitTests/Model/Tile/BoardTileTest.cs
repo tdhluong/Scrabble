@@ -162,7 +162,11 @@ namespace UnitTests
             Assert.AreEqual(Brushes.LightSkyBlue, BoardTiles.DetermineColor(0, 3)); // Letter Double
             Assert.AreEqual(Brushes.MediumBlue, BoardTiles.DetermineColor(1, 5)); // Letter Triple
             Assert.AreEqual(Brushes.Gold, BoardTiles.DetermineColor(7, 7)); // Start
-            Assert.AreEqual(Brushes.Bisque, BoardTiles.DetermineColor(1, 0)); // Default           
+            Assert.AreEqual(Brushes.Bisque, BoardTiles.DetermineColor(1, 0)); // Default
+
+            // Additional tests to cover all statements 
+            Assert.AreEqual(Brushes.Bisque, BoardTiles.DetermineColor(0, 1)); // Default
+
         }
     }
 }
