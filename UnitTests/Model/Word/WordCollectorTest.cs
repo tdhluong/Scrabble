@@ -10,6 +10,7 @@ namespace UnitTests.Model.Word
     [TestFixture]
     public class WordCollectorTest
     {
+        // Test cases using LLM
         [Test]
         public static void Locate_ReturnOne_GivenValidWordNotAppeared()
         {
@@ -160,6 +161,139 @@ namespace UnitTests.Model.Word
             // Assert
             Assert.IsTrue(result > 0);
         }
+
+        [Test]
+        public static void VCollect_ReturnZero_GivenWordLengthOne()
+        {
+            // Arrange
+            GameState gs = new GameState
+            {
+                WordsAppeared = new List<string>(),
+                WordsAppearedInValidation = new List<string>(),
+                CorrectWords = new Dictionary<string, int>(),
+                BoardChar = new char[15, 15]
+            };
+            gs.BoardChar[0, 0] = 'A';
+
+            // Act
+            int result = WordCollector.VCollect(0, 0, gs.BoardChar, gs);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public static void HCollect_ReturnZero_GivenWordLengthOne()
+        {
+            // Arrange
+            GameState gs = new GameState
+            {
+                WordsAppeared = new List<string>(),
+                WordsAppearedInValidation = new List<string>(),
+                CorrectWords = new Dictionary<string, int>(),
+                BoardChar = new char[15, 15]
+            };
+            gs.BoardChar[0, 0] = 'A'; // Single character word
+
+            // Act
+            int result = WordCollector.HCollect(0, 0, gs.BoardChar, gs);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public static void VCollect_ReturnZero_GivenValidVerticalWordAlreadyAppeared()
+        {
+            // Arrange
+            GameState gs = new GameState
+            {
+                WordsAppeared = new List<string> { "TEST" },
+                WordsAppearedInValidation = new List<string>(),
+                CorrectWords = new Dictionary<string, int>(),
+                BoardChar = new char[15, 15]
+            };
+            gs.BoardChar[0, 0] = 'T';
+            gs.BoardChar[1, 0] = 'E';
+            gs.BoardChar[2, 0] = 'S';
+            gs.BoardChar[3, 0] = 'T';
+            File.WriteAllLines(@"Model\Word\wordlist.txt", new[] { "TEST" });
+
+            // Act
+            int result = WordCollector.VCollect(0, 0, gs.BoardChar, gs);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public static void HCollect_ReturnZero_GivenValidHorizontalWordAlreadyAppeared()
+        {
+            // Arrange
+            GameState gs = new GameState
+            {
+                WordsAppeared = new List<string> { "TEST" },
+                WordsAppearedInValidation = new List<string>(),
+                CorrectWords = new Dictionary<string, int>(),
+                BoardChar = new char[15, 15]
+            };
+            gs.BoardChar[0, 0] = 'T';
+            gs.BoardChar[0, 1] = 'E';
+            gs.BoardChar[0, 2] = 'S';
+            gs.BoardChar[0, 3] = 'T';
+            File.WriteAllLines(@"Model\Word\wordlist.txt", new[] { "TEST" });
+
+            // Act
+            int result = WordCollector.HCollect(0, 0, gs.BoardChar, gs);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+
+        [Test]
+        public static void Collect_ReturnZero_GivenNoValidWords()
+        {
+            // Arrange
+            GameState gs = new GameState
+            {
+                WordsAppeared = new List<string>(),
+                WordsAppearedInValidation = new List<string>(),
+                CorrectWords = new Dictionary<string, int>(),
+                BoardChar = new char[15, 15]
+            };
+            gs.BoardChar[0, 0] = 'A'; // Single character, no valid word
+            File.WriteAllLines(@"Model\Word\wordlist.txt", new[] { "TEST" });
+
+            // Act
+            int result = WordCollector.Collect(0, 0, gs.BoardChar, gs);
+
+            // Assert
+            Assert.AreEqual(0, result);
+        }
+
+        [Test]
+        public static void Collect_ReturnValidScore_GivenOnlyHorizontalWord()
+        {
+            // Arrange
+            GameState gs = new GameState
+            {
+                WordsAppeared = new List<string>(),
+                WordsAppearedInValidation = new List<string>(),
+                CorrectWords = new Dictionary<string, int>(),
+                BoardChar = new char[15, 15]
+            };
+            gs.BoardChar[0, 0] = 'T';
+            gs.BoardChar[0, 1] = 'O'; // Valid horizontal word
+            File.WriteAllLines(@"Model\Word\wordlist.txt", new[] { "TO" });
+
+            // Act
+            int result = WordCollector.Collect(0, 0, gs.BoardChar, gs);
+
+            // Assert
+            Assert.IsTrue(result > 0);
+        }
+
 
     }
 }
